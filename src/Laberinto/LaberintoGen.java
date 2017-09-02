@@ -42,6 +42,22 @@ public class LaberintoGen {
     public boolean esVisitado(int x, int y) {
         return (maze[x][y] & 0x10) != 0;
     }
+    
+    public boolean hayParedD(int x, int y){
+        if(x+1 >= w) return true;
+        return (maze[x+1][y] & 8) == 0 ? true : false;
+    }
+    public boolean hayParedI(int x, int y){
+        return (maze[x][y] & 8) == 0 ? true : false;
+    }
+    
+    public boolean hayParedArriba(int x,int y){
+        return (maze[x][y] & 1) == 0 ? true : false;
+    }
+    public boolean hayParedAbajo(int x,int y){
+        if(y+1 >= h) return true;
+        return (maze[x][y+1] & 1) == 0 ? true : false;
+    }
 
     public void display() {
         for (int i = 0; i < h; i++) {

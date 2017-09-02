@@ -15,6 +15,8 @@ public class Main extends Application {
     private final Image image = new Image("file:tileLab.png");
     private LaberintoGen m;
     private GraphicsContext gc;
+    private int size = 20;
+    private int vel = 100;
 
     public static void main(String[] args) {
         launch(args);
@@ -22,7 +24,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        int size = 10;
         m = new LaberintoGen(size, size);
         primaryStage.setTitle("Laberinto");
         Group root = new Group();
@@ -39,7 +40,7 @@ public class Main extends Application {
             @Override
             protected Object call() throws Exception {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -59,15 +60,41 @@ public class Main extends Application {
      * @param y posicion actual en y a resolver
      * @return true si la celda es parte de la solucion, sino false
      */
-    private boolean resolver(int x, int y) {
-        m.visitar(x, y);
+    private boolean resolver(int x, int y) throws Exception{
         dibujarPunto(x, y, 1);
-
-
-        dibujarPunto(x, y, 0);
+        m.visitar(x, y);
+        if(x == size-1 && y == size-1){
+            dibujarPunto(size-1, size-1, 2);
+            return true;
+        }        
+        if(!m.hayParedAbajo(x, y) && !m.esVisitado(x, y+1)){
+            if(pintar(resolver(x, y+1), x, y+1))
+                return true;            
+        } 
+        if(!m.hayParedArriba(x, y)&& !m.esVisitado(x, y-1)){
+            if(pintar(resolver(x, y-1), x, y-1))
+                return true;               
+        }
+        if(!m.hayParedD(x, y)&& !m.esVisitado(x+1, y)){
+            if(pintar(resolver(x+1, y), x+1, y))
+                return true;    
+        } 
+        if(!m.hayParedI(x, y)&& !m.esVisitado(x-1, y)){
+            if(pintar(resolver(x-1, y), x-1, y))
+                return true;   
+        }                       
         return false;
     }
 
+    private boolean pintar(boolean op,int x,int y){
+        if(op){
+                dibujarPunto(x, y, 2);
+                return true;
+        }
+        dibujarPunto(x, y, 0);
+        return false;
+        }
+    
     /**
      * Dibuja el mapa en el canvas
      */
@@ -88,20 +115,20 @@ public class Main extends Application {
         int radio = 10;
 
         try {
-            Thread.sleep(300);
+            Thread.sleep(vel);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         switch (color) {
             case 0:
-                gc.setFill(Color.RED);
+                gc.setFill(Color.rgb(255, 56, 56));
                 break;
             case 1:
                 gc.setFill(Color.YELLOW);
                 break;
             case 2:
-                gc.setFill(Color.GREEN);
+                gc.setFill(Color.rgb(123, 247, 0));
                 break;
         }
         Platform.runLater(() ->
