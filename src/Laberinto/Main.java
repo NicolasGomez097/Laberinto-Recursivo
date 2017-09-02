@@ -1,4 +1,4 @@
-package Laberinto;
+﻿package Laberinto;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,7 +16,7 @@ public class Main extends Application {
     private LaberintoGen m;
     private GraphicsContext gc;
     private int size = 20;
-    private int vel = 100;
+    private int vel = 50;
 
     public static void main(String[] args) {
         launch(args);
