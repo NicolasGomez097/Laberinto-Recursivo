@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class LaberintoGen {
 
     private final int w;
-    private final int h;
+    private final int h1;
 
 
     private final int[][] maze;
